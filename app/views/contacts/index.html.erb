@@ -1,0 +1,13 @@
+
+<table>
+<% @contact_list.each do |contact| %>
+<tr>  
+	<% contact.attributes.each do |name, value| %>
+<td>
+	<%= name %>
+	<%= value -%>
+</td>
+<% end %>
+</tr>
+<% end %>
+</table>
