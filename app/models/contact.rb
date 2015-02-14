@@ -24,7 +24,7 @@ class Contact < ActiveRecord::Base
 
 	
 	def self.populate_contact_list(url)
-		@contact_list = []
+		contact_list = []
 		has_more = true
 		offset = ""
 		while has_more do
@@ -36,15 +36,15 @@ class Contact < ActiveRecord::Base
 		  response["contacts"].each do |hs_contact|
 		  	contact = Contact.new
 		  	contact.vid = hs_contact["canonical-vid"]
-		  	@contact_list << contact
+		  	contact_list << contact
 		  end
 		end
-		self.update_entries
+		update_entries(contact_list)
 	end
 
-	def self.update_entries
+	def self.update_entries(contact_list)
 		num = 1
-		@contact_list.each do |hs_contact|
+		contact_list.each do |hs_contact|
 			contact = Contact.where(:vid => hs_contact.vid).first_or_create
 			logger.debug("processing "+num.to_s)
 			num +=1
