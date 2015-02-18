@@ -40,6 +40,7 @@ class Contact < ActiveRecord::Base
 		  end
 		end
 		update_entries(contact_list)
+		retur contact_list
 	end
 
 	def self.update_entries(contact_list)
