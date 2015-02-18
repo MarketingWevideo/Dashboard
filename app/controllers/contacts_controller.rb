@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
 	end
 
 	def modify
-		Contact.populate_contact_list("https://api.hubapi.com/contacts/v1/lists/3690/contacts/all?hapikey=0c780907-df7a-4296-8128-701f8b15422b&count=100")
+		@contact_list = Contact.populate_contact_list("https://api.hubapi.com/contacts/v1/lists/3690/contacts/all?hapikey=0c780907-df7a-4296-8128-701f8b15422b&count=100")
 	end
 
 
