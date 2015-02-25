@@ -59,4 +59,10 @@ Rails.application.routes.draw do
       get :reset, :modify
     end
   end
+
+  resources :subscriptions do
+    collection do
+      get :newsubs, :churnsubs
+    end
+  end
 end

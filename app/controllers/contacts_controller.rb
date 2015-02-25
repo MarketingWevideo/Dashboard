@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
 
-	require 'open-uri'
+	
 
 	def reset
 		Contact.delete_all
