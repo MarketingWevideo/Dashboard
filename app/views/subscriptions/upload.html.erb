@@ -1,0 +1,5 @@
+<h2>Import File</h2>
+<%= form_tag({action: :reset}, multipart: true) do %>
+<%= file_field_tag 'spreadsheet' %>
+<%= submit_tag "Submit" %>
+<% end %>

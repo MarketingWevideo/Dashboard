@@ -29,22 +29,34 @@ ActiveRecord::Schema.define(version: 20150218204735) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.integer  "accountnumber"
-    t.string   "name"
-    t.string   "status"
-    t.string   "email"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "accountnumber"
+    t.string   "accountname"
+    t.integer  "accountbalance"
+    t.integer  "accountmrr"
+    t.string   "ownerfirstname"
+    t.string   "ownerlastname"
+    t.string   "owneremail"
+    t.string   "subscriptionstatus"
+    t.date     "subscriptionstartdate"
+    t.date     "subscriptionendate"
+    t.date     "subscriptioncanceldate"
+    t.string   "subscriptionid"
+    t.date     "contracteffectivedate"
     t.date     "startdate"
     t.integer  "initialterm"
     t.integer  "renewalterm"
     t.date     "enddate"
     t.date     "createdate"
+    t.integer  "mrr"
     t.string   "product"
     t.string   "productrateplan"
     t.string   "rateplanperiod"
     t.string   "rateplantype"
     t.string   "rateplancreatedate"
+    t.string   "rateplanchargeid"
+    t.string   "amendment_type"
   end
 
 end

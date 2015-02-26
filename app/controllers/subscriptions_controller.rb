@@ -7,4 +7,14 @@ class SubscriptionsController < ApplicationController
 		logger.info "AND THIS IS NOW #{url}"
 		 @subscription_list = JSON.parse(open(url).read)
 	end
+
+	def reset
+		logger.info("#{params["spreadsheet"]}")
+		@subscriptions = Subscription.reset(params["spreadsheet"].tempfile)		
+	end
+
+	def upload
+		@spreadsheet
+	end
+
 end

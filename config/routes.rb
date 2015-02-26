@@ -62,7 +62,8 @@ Rails.application.routes.draw do
 
   resources :subscriptions do
     collection do
-      get :newsubs, :churnsubs
+      get :newsubs, :churnsubs, :upload 
+      post :reset  
     end
   end
 end
