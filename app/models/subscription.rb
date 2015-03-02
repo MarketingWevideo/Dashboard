@@ -89,4 +89,50 @@ class Subscription < ActiveRecord::Base
 		end
 	end
 
+	def self.update_list(subscription_list)
+		subscription_array = []
+		subscription_list.each do |object|
+			subscription_array << create_subscription_from_json(object)
+		end
+		return subscription_array
+	end
+
+	def self.create_subscription_from_json(object)
+		subscription = Subscription.where(:rateplanchargeid => object["RatePlanChargeId"]).first_or_initialize
+		subscription.accountname = object["Account Name"]
+		subscription.accountbalance = object["Account Balance"]
+		subscription.mrr = object["New charge MRR"]
+		subscription.ownerfirstname = nil
+		subscription.ownerlastname = nil
+		subscription.owneremail = object["Work Email"]
+		subscription.subscriptionstatus = object["Status"]
+		subscription.subscriptionstartdate = convert_date(object["Subscription Start Date"]["time"])
+		subscription.subscriptionendate = convert_date(object["Subscription End Date"]["time"])
+		subscription.subscriptioncanceldate = convert_date(object["Cancelled Date"]["time"])
+		subscription.subscriptionid = object["subcriptionId"]
+		subscription.contracteffectivedate = convert_date(object["Contract Effective Date"]["time"])
+		subscription.startdate = convert_date(object["Effective Start Date"]["time"])
+		subscription.initialterm = object["Initial Term"]
+		subscription.renewalterm = object["Renewal Term"]
+		subscription.enddate = convert_date(object["Subscription End Date"]["time"])
+		subscription.createdate = convert_date(object["Subscription Created Date"]["time"])
+		subscription.product = object["Product Name"]
+		subscription.productrateplan =  object["Product Rate Plan Name"]
+		subscription.rateplanperiod = object["Rate Plan Period C"]
+		subscription.rateplantype = object["Rate Plan Type C"]
+		subscription.rateplancreatedate = convert_date(object["Rate Plan Charge Created Date"]["time"])
+		subscription.rateplanchargeid = object["RatePlanChargeId"]
+		subscription.amendment_type = object["Amendment Type"]
+		logger.info("#{subscription.attributes}")
+		subscription.save
+		return subscription
+	end
+
+	def self.convert_date(object_date)
+		unless object_date.nil?
+			date = (object_date.to_f/1000).to_s
+			Date.strptime(date, '%s')
+		end
+	end
+
 end
