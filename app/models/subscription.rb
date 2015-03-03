@@ -59,7 +59,7 @@ class Subscription < ActiveRecord::Base
 	def self.create_subscription_from_excel(row)
 		logger.info("#{row[RATE_PLAN_CHARGE_ID]}")
 		if row[RATE_PLAN_CHARGE_ID] && row[RATE_PLAN_CHARGE_ID].to_s != RATE_PLAN_CHARGE_ID_HEADER.to_s
-			subscription = Subscription.new
+			subscription = Subscription.where(:rateplanchargeid => row[RATE_PLAN_CHARGE_ID]).first_or_initialize
 			subscription.accountnumber = row[ACCOUNT_NUMBER]
 			subscription.accountname = row[ACCOUNT_NAME]
 			subscription.accountbalance = row[ACCOUNT_BALANCE]
@@ -77,7 +77,7 @@ class Subscription < ActiveRecord::Base
 			subscription.initialterm = row[INITIAL_TERM]
 			subscription.renewalterm = row[RENEWAL_TERM]
 			subscription.enddate = row[END_DATE]
-			subscription.createdate = row[CREATE_DATE]
+			subscription.createdate = row[SUBSCRIPTION_CREATE_DATE]
 			subscription.product = row[PRODUCT]
 			subscription.productrateplan = row[PRODUCT_RATE_PLAN]
 			subscription.rateplanperiod = row[RATE_PLAN_PERIOD]
@@ -133,6 +133,13 @@ class Subscription < ActiveRecord::Base
 			date = (object_date.to_f/1000).to_s
 			Date.strptime(date, '%s')
 		end
+	end
+
+	def self.collect_from_database(url)
+		response = open(url, "AUTHORIZATION" => "*TXs7~4'~p6XzQ]").read
+		logger.info "THE RESPONSE #{response}"
+		 subscription_list = JSON.parse(response)
+		 Subscription.update_list(subscription_list)
 	end
 
 end
