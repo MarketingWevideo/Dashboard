@@ -6,3 +6,9 @@ task :update_contacts => :environment do
   puts "done."
 end
 
+desc "This task updates the Day View for use in Bime"
+task :update_days => :environment do
+	puts "Updating Days"
+	Subscription.all.each {|sub| Day.day_from_subscription(sub)}
+	puts "done"
+end
